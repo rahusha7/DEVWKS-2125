@@ -78,7 +78,7 @@ To activate the application:
       
       configure terminal
 
-      appmgr application bind activate type docker source bind docker-run-opts "-itd --hostname=ns1 --network=host -v {app_install_root}/config/bind-configs/named.conf.options:/etc/bind/named.conf.options -v {app_install_root}/config/bind/named.conf.local:/etc/bind/named.conf.local -v {app_install_root}/config/bind/db.ios-xr.tme:/etc/bind/zones/db.ios-xr.tme"
+      appmgr application bind activate type docker source bind docker-run-opts "-itd --hostname=ns1 --network=host -v {app_install_root}/config/bind/named.conf.options:/etc/bind/named.conf.options -v {app_install_root}/config/bind/named.conf.local:/etc/bind/named.conf.local -v {app_install_root}/config/bind/db.ios-xr.tme:/etc/bind/zones/db.ios-xr.tme"
       
       commit
       
