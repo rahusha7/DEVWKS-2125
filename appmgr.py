@@ -60,6 +60,30 @@ Step6: Once we have all our prerequisites ready, we will now create an RPM using
        an RPM for you?
 """
 
+step7 = """
+Step7: Do you want to copy this RPM on the router? Press 'y' if yes.
+       Password for the router is 'cisco123'
+"""
+
+step8 = """
+RPM copied successfully at the following location:
+      /misc/disk1/bind-1.0.1-ThinXR_7.3.15.x86_64.rpm
+
+"""
+
+step9 = """
+To install the RPM: appmgr package install rpm /misc/disk1/bind-1.0.1-ThinXR_7.3.15.x86_64.rpm
+
+To activate the application:
+      
+      configure terminal
+
+      appmgr application bind activate type docker source bind docker-run-opts "-itd --hostname=ns1 --network=host -v {app_install_root}/config/bind-configs/named.conf.options:/etc/bind/named.conf.options -v {app_install_root}/config/bind/named.conf.local:/etc/bind/named.conf.local -v {app_install_root}/config/bind/db.ios-xr.tme:/etc/bind/zones/db.ios-xr.tme"
+      
+      commit
+      
+      end
+"""
 
 print(intro)
 
@@ -69,7 +93,7 @@ print()
 print(step1)
 user_input = input()
 if user_input.lower() == 'y':
-    os.system("git clone https://github.com/ios-xr/xr-appmgr-build.git")
+    os.system("cd ~ && git clone https://github.com/ios-xr/xr-appmgr-build.git")
 else:
     print("Thanks for trying. Rolling back.")
     sys.exit(1)
@@ -80,7 +104,7 @@ print()
 print(step2)
 user_input = input()
 if user_input.lower() == 'y':
-    os.system("mkdir xr-appmgr-build/bind9")
+    os.system("mkdir ~/xr-appmgr-build/bind9")
 else:
     print("Thanks for trying. Rolling back.")
     os.system("rm -rf ~/xr-appmgr-build")
@@ -104,7 +128,7 @@ print()
 print(step4)
 user_input = input()
 if user_input.lower() == 'y':
-    os.system(". ./config-bind.sh")
+    os.system(". ~/DEVWKS-2125/config-bind.sh")
 else:
     print("Thanks for trying. Rolling back.")
     os.system("rm -rf ~/xr-appmgr-build")
@@ -135,4 +159,19 @@ else:
     sys.exit(1)
 
 
-print("Congratulation")
+print("Congratulation, you have created an RPM successfully")
+
+#STEP7
+print(step7)
+user_input = input("")
+if user_input.lower() == 'y':
+    os.system("scp ~/xr-appmgr-build/RPMS/x86_64/bind-1.0.1-ThinXR_7.3.15.x86_64.rpm cisco@10.1.1.1:/misc/disk1/")
+else:
+    print("Thanks for trying. Rolling back.")
+    os.system("rm -rf ~/xr-appmgr-build")
+    sys.exit(1)
+
+
+print(step8)
+
+print(step9)
